@@ -16,7 +16,7 @@ from obd.utils import bytes_to_int
 class PiHud(QWidget):
     def __init__(self):
         QWidget.__init__(self)
-        self.ui = loadUi("resources/pihud.ui")
+        self.ui = loadUi("resources/pi-hud.ui")
         self.obdWorker = OBDWorker()
         self.connectSignalSlot()
         self.obdWorker.start()
