@@ -1,0 +1,14 @@
+[Unit]
+Description=pi-hud Service By Chan
+After=bluetooth.service
+
+[Service]
+#### eglfs environment file
+# EnvironmentFile=/home/pi/pi-hud/resources/qtenv
+WorkingDirectory=/home/pi/pi-hud
+ExecStart=/usr/bin/python3 pihud.py
+# Restart=always
+ExecStartPre=/usr/bin/rfcomm bind rfcomm0 00:1D:A5:00:80:58
+
+[Install]
+WantedBy=bluetooth.target
