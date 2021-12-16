@@ -16,7 +16,7 @@ from obd.utils import bytes_to_int
 class PiHud(QWidget):
     def __init__(self):
         QWidget.__init__(self)
-        self.ui = loadUi("resources/pi-hud.ui")
+        self.ui = loadUi("/home/pi/pi-hud/resources/pi-hud.ui")
         self.obdWorker = OBDWorker()
         self.connectSignalSlot()
         self.obdWorker.start()
@@ -130,5 +130,6 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     app = QApplication(sys.argv)
     w = PiHud()
+    w.ui.setCursor(Qt.BlankCursor)
     w.ui.showFullScreen()
     sys.exit(app.exec())
