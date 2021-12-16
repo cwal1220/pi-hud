@@ -35,7 +35,7 @@ QDoubleSpinBox
 }
 QGroupBox {
     border: 2px solid gray;
-    border-color: #FF17365D;
+    border-color: #7717365D;
     margin-top: 18px;
     font-size: 10px;
 }
@@ -44,7 +44,7 @@ QGroupBox::title {
     subcontrol-origin: margin;
     subcontrol-position: top center;
     padding: 5px 800px;
-    background-color: #FF17365D;
+    background-color: #7717365D;
     color: rgb(255, 255, 255);
 }
 QLabel {
