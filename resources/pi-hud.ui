@@ -24,14 +24,21 @@ QProgressBar
 	border-color: rgb(255, 255, 255);
 	background-color: rgb(99, 99, 99);
 }
-QSpinBox:
+QSpinBox
 {
 	color: white;
 }
-QDoubleSpinBox:
+
+QDoubleSpinBox
 {
 	color: white;
-}</string>
+}
+QGroupBox 
+{ 
+     border: 3px solid gray; 
+     border-radius: 5px; 
+ } 
+</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
@@ -399,7 +406,8 @@ QDoubleSpinBox:
     <enum>Qt::PreventContextMenu</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">color: rgb(255, 255, 255);
+border-color: rgb(255, 255, 255);</string>
    </property>
    <property name="title">
     <string>Load</string>
