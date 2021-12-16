@@ -128,5 +128,5 @@ class OBDWorker(QThread):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     w = PiHud()
-    w.ui.show()
+    w.ui.showFullScreen()
     sys.exit(app.exec())
