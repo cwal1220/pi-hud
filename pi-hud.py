@@ -126,6 +126,8 @@ class OBDWorker(QThread):
 
 
 if __name__ == '__main__':
+    import signal
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
     app = QApplication(sys.argv)
     w = PiHud()
     w.ui.showFullScreen()

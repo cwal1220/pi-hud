@@ -6,7 +6,7 @@ After=bluetooth.service
 #### eglfs environment file
 # EnvironmentFile=/home/pi/pi-hud/resources/qtenv
 WorkingDirectory=/home/pi/pi-hud
-ExecStart=/usr/bin/python3 pihud.py
+ExecStart=/usr/bin/python3 pi-hud.py
 # Restart=always
 ExecStartPre=/usr/bin/rfcomm bind rfcomm0 00:1D:A5:00:80:58
 
