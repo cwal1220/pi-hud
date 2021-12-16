@@ -2,12 +2,12 @@
 HUD(Head-Up Display) for Raspberry Pi4
 
 # Supported feature
-	1. Speed
-  2. RPM
-  3. Engine Load
-  4. Engine Coolant
-  5. DPF(Diesel Particulate Filter) Distance
-  6. DPF(Diesel Particulate Filter) Temperature
+1. Speed
+2. RPM
+3. Engine Load
+4. Engine Coolant
+5. DPF(Diesel Particulate Filter) Distance
+6. DPF(Diesel Particulate Filter) Temperature
 
 ## Install
   ```
