@@ -1,4 +1,5 @@
 
+
 # coding: utf-8
  
 import sys
@@ -16,7 +17,7 @@ from obd.utils import bytes_to_int
 class PiHud(QWidget):
     def __init__(self):
         QWidget.__init__(self)
-        self.ui = loadUi("resources/pi-hud.ui")
+        self.ui = loadUi("/home/pi/pi-hud/resources/pi-hud.ui")
         self.obdWorker = OBDWorker()
         self.connectSignalSlot()
         self.obdWorker.start()
@@ -64,19 +65,25 @@ class PiHud(QWidget):
     def dpfTempUpdateSlot(self, value):
         self.ui.dpfTempSpin.setValue(value)
 
+def signed_byte(b):
+    return b - 256 if b >= 128 else b
+
 def dpfDataProcess(messages):
-    btarr = messages[0].data
-    print('@@@@@@@DPF Data Parse Test@@@@@@@')
-    for idx, bt in enumerate(btarr):
+    btarr = messages[2].data
+    print(len(messages))
+    dpfEnabled = False
+    v = 0
+#    print('\n@@@@@@@DPF Data Parse Test@@@@@@@')
+#    for idx, bt in enumerate(btarr):
         #print('{}/{} : {}'.format(idx, len(btarr), hex(bt)))
-        print(hex(bt), end='  ')
-        if idx % 8 == 0:
-            print('')
-    print('@@@@@@@DPF Data Parse END@@@@@@@@')
-    dpfEnabled = True if btarr[7] == 4 else False
-    btarr = btarr[56:59]
-    v = bytes_to_int(btarr)
-    return (v / 1000) * Unit.kilometer, dpfEnabled
+#        print("{0:02x}".format(bt), end='  ')
+#        if idx % 8 == 0:
+#            print('')
+    print('\n@@@@@@@DPF Data Parse END@@@@@@@@')
+    print("dbg: ", btarr[12], btarr[13])
+    batCurrent = ((signed_byte(btarr[12]) * 256) + int(btarr[13])) / 10.0
+    print("dbg:", batCurrent)
+    return batCurrent * Unit.ampere, batCurrent < 0
 
 class OBDWorker(QThread):
     rpmSignal = pyqtSignal(int)
@@ -94,7 +101,7 @@ class OBDWorker(QThread):
         self.SPEED = obd.commands.SPEED
         self.TEMP = obd.commands.COOLANT_TEMP
         self.ENGINE_LOAD = obd.commands.ENGINE_LOAD
-        self.DPF_DISTANCE = OBDCommand('DPF', 'DPF INFO', b"2103", 0, dpfDataProcess)
+        self.DPF_DISTANCE = OBDCommand('DPF', 'DPF INFO', b"2101", 0, dpfDataProcess)
         self.DPF_TEMP = obd.commands.CATALYST_TEMP_B1S2
 
         self.loop_count = 0
@@ -103,7 +110,10 @@ class OBDWorker(QThread):
         # Test Code
         while True:
             rpm = self.connection.query(self.RPM)
-            self.rpmSignal.emit(rpm.value.magnitude)
+            if rpm.value:
+                self.rpmSignal.emit(rpm.value.magnitude)
+            else:
+                self.rpmSignal.emit(0)
 
             speed = self.connection.query(self.SPEED)
             self.speedSignal.emit(speed.value.magnitude)
@@ -115,7 +125,7 @@ class OBDWorker(QThread):
             self.loadSignal.emit(engine_load.value.magnitude)
 
 
-            if self.loop_count % 50 == 0:
+            if self.loop_count % 2 == 0:
                 dpf_temp = self.connection.query(self.DPF_TEMP)
                 self.dpfTempSignal.emit(dpf_temp.value.magnitude)
 
